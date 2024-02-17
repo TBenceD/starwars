@@ -9,9 +9,10 @@ type FilterProps = {
   }[];
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   currentValue?: string;
+  placeholder: string;
 };
 export default function Filter(props: FilterProps) {
-  const { options, onChange, id, name, currentValue } = props;
+  const { options, onChange, id, name, currentValue, placeholder } = props;
 
   return (
     <select
@@ -21,7 +22,8 @@ export default function Filter(props: FilterProps) {
       onChange={(e) => onChange(e)}
       value={currentValue}
     >
-      <option key={null} value={""} label="" />
+      <option disabled defaultValue={placeholder} label={placeholder} />
+      <option key={null} value={""} label={"Egyik sem"} />
       {options.map((o, index) => (
         <option key={index} value={o.value} label={o.label} />
       ))}

@@ -51,10 +51,12 @@ export default function CardList(props: CardListProps) {
   };
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLoadedAllCharacters(false);
     setGender(e.target.value);
   };
 
   const handleHomeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLoadedAllCharacters(false);
     setHome(e.target.value);
   };
 
@@ -65,15 +67,15 @@ export default function CardList(props: CardListProps) {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const indicatorBottom = scrollTop + clientHeight;
 
-      // Calculate 5% from the bottom of the scrollbar
-      const fivePercentFromBottom = scrollHeight * 0.95;
+      // Calculate 2% from the bottom of the scrollbar
+      const twoPercentFromBottom = scrollHeight * 0.98;
 
-      // Check if the indicator bottom is approximately 5% from the bottom
-      const isFivePercentFromBottom = indicatorBottom >= fivePercentFromBottom;
+      // Check if the indicator bottom is approximately 2% from the bottom
+      const isTwoPercentFromBottom = indicatorBottom >= twoPercentFromBottom;
 
       if (
         !loadedAllCharacters &&
-        isFivePercentFromBottom &&
+        isTwoPercentFromBottom &&
         !characters.isLoading &&
         !characters.isFetching
       ) {
@@ -120,7 +122,7 @@ export default function CardList(props: CardListProps) {
           )}
         </div>
       </div>
-      {!useIsScrollable({ dependencies: [gender, searchTerm] }) &&
+      {!useIsScrollable({ dependencies: [gender, searchTerm, home] }) &&
         !loadedAllCharacters &&
         !characters.isFetching &&
         !characters.isLoading && (

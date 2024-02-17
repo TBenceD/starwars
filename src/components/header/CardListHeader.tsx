@@ -34,8 +34,8 @@ export default function CardListHeader(props: CardListHeaderProps) {
     new Map(names.map((name) => [name.value, name])).values()
   );
   return (
-    <div className="pt-8 w-full flex justify-center space-x-4">
-      <div className="w-1/2">
+    <div className="pt-8 w-full flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-7 md:gap-2">
+      <div className="md:col-span-3 md:col-start-2">
         <SearchBar
           id="search"
           value={searchText}
@@ -44,22 +44,24 @@ export default function CardListHeader(props: CardListHeaderProps) {
           placeholder="Kezdj el keresni.."
         />
       </div>
-      <div>
+      <div className="md:col-span-1">
         <Filter
           id="gender-filter"
           name="gender"
           options={AllGenderType}
           onChange={handleGenderChange}
           currentValue={gender}
+          placeholder="Nem"
         />
       </div>
-      <div>
+      <div className="md:col-span-1">
         <Filter
           id="gender-filter"
           name="gender"
           options={uniqueNamesArray}
           onChange={handleHomeChange}
           currentValue={home}
+          placeholder="Szülőföld"
         />
       </div>
     </div>

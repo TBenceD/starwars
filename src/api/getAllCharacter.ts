@@ -64,8 +64,6 @@ export default async function getAllCharacter(
   if (home) {
     const filteredResults = fetchData.results.filter(
       (character: CharacterEntity) => {
-        console.log(home);
-        console.log(character.homeworld.toLowerCase());
         return character.homeworld.toLowerCase() === home.toLowerCase();
       }
     );

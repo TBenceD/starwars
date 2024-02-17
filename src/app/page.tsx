@@ -15,7 +15,7 @@ export default function Home() {
     setSelectedCharacter(undefined);
   };
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen flex-col sm:p-24 p-4 pt-12">
       <CardList handleModalVisible={handleModalVisible} />
       {selectedCharacter && (
         <CharacterModal
