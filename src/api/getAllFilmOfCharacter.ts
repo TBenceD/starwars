@@ -17,6 +17,7 @@ export default async function getAllFilmOfCharacter(
     films = await Promise.all(filmRequest);
   } catch (error) {
     console.error("Hiba a filmek betöltése közben:", error);
+    return [];
   }
 
   return films[0].title;

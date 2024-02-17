@@ -3,12 +3,16 @@
 import getAllCharacter from "@/api/getAllCharacter";
 import { QueryKeys } from "@/common";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "../card/Card";
 import { CharacterEntity } from "@/entity";
 import LoadingCard from "../card/LoadingCard";
 import Button from "../button/Button";
-import { useDebounce, useIsScrollable } from "@/utils";
+import {
+  useDebounce,
+  useIsScrollable,
+  useTriggerInfiniteScrolling,
+} from "@/utils";
 import CardListHeader from "../header/CardListHeader";
 
 type CardListProps = {
@@ -24,15 +28,19 @@ export default function CardList(props: CardListProps) {
   const [home, setHome] = useState("");
 
   const characters = useInfiniteQuery({
-    queryKey: [QueryKeys.characterQuery, { search: searchTerm, gender, home }],
+    queryKey: [QueryKeys.characterQuery, { search: searchTerm }],
     queryFn: ({ pageParam }) =>
-      getAllCharacter({ page: pageParam, search: searchTerm, gender, home }),
+      getAllCharacter({ page: pageParam, search: searchTerm }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.next === null && !loadedAllCharacters) {
         setLoadedAllCharacters(true);
       }
-      return lastPage.next !== null ? allPages.length + 1 : null;
+      return gender || home
+        ? null
+        : lastPage.next !== null
+        ? allPages.length + 1
+        : null;
     },
   });
 
@@ -60,35 +68,12 @@ export default function CardList(props: CardListProps) {
     setHome(e.target.value);
   };
 
-  useEffect(() => {
-    const handleScroll = async () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = window.innerHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const indicatorBottom = scrollTop + clientHeight;
-
-      // Calculate 2% from the bottom of the scrollbar
-      const twoPercentFromBottom = scrollHeight * 0.98;
-
-      // Check if the indicator bottom is approximately 2% from the bottom
-      const isTwoPercentFromBottom = indicatorBottom >= twoPercentFromBottom;
-
-      if (
-        !loadedAllCharacters &&
-        isTwoPercentFromBottom &&
-        !characters.isLoading &&
-        !characters.isFetching
-      ) {
-        handleLoadMore();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [characters]);
+  useTriggerInfiniteScrolling({
+    triggeringFunction: handleLoadMore,
+    loadedAll: loadedAllCharacters,
+    isLoaded: !characters.isLoading && !characters.isFetching,
+    dependencies: [characters, loadedAllCharacters],
+  });
 
   return (
     <div>
@@ -108,21 +93,41 @@ export default function CardList(props: CardListProps) {
           ) : (
             <>
               {characters.data &&
-                characters.data.pages.map((page) =>
-                  page.results?.map((character: CharacterEntity) => (
-                    <Card
-                      key={character.name}
-                      character={character}
-                      onClick={handleModalVisible}
-                    />
-                  ))
-                )}
+                characters.data.pages.map((page) => {
+                  const filteredCharacters = page.results?.filter(
+                    (character: CharacterEntity) =>
+                      gender && home
+                        ? character.gender.toLowerCase() ===
+                            gender.toLowerCase() &&
+                          character.homeworld.toLowerCase() ===
+                            home.toLowerCase()
+                        : gender
+                        ? character.gender.toLowerCase() ===
+                          gender.toLowerCase()
+                        : home
+                        ? character.homeworld.toLowerCase() ===
+                          home.toLowerCase()
+                        : true
+                  );
+
+                  return filteredCharacters?.map(
+                    (character: CharacterEntity) => (
+                      <Card
+                        key={character.name}
+                        character={character}
+                        onClick={handleModalVisible}
+                      />
+                    )
+                  );
+                })}
               {characters.isFetching && <LoadingCard />}
             </>
           )}
         </div>
       </div>
       {!useIsScrollable({ dependencies: [gender, searchTerm, home] }) &&
+        !gender &&
+        !home &&
         !loadedAllCharacters &&
         !characters.isFetching &&
         !characters.isLoading && (

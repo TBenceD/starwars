@@ -5,8 +5,6 @@ import getHomeOfCharacter from "./getCharacterHomeWorld";
 type getAllCharactersProps = {
   page: number;
   search: string;
-  gender: string | undefined;
-  home: string | undefined;
 };
 
 const url = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -14,7 +12,7 @@ const url = process.env.NEXT_PUBLIC_API_BASE_URL;
 export default async function getAllCharacter(
   props: getAllCharactersProps
 ): Promise<CharacterPageEntity> {
-  const { page, search, gender, home } = props;
+  const { page, search } = props;
 
   const queryParams = new URLSearchParams({
     page: page.toString(),
@@ -50,35 +48,6 @@ export default async function getAllCharacter(
   );
 
   fetchData = { ...fetchData, results: filteringResults, homeWorldNames };
-
-  if (home && gender) {
-    const filteredResults = fetchData.results.filter(
-      (character: CharacterEntity) =>
-        character.homeworld.toLowerCase() === home.toLowerCase() &&
-        character.gender.toLowerCase() === gender.toLowerCase()
-    );
-
-    return { ...fetchData, results: filteredResults };
-  }
-
-  if (home) {
-    const filteredResults = fetchData.results.filter(
-      (character: CharacterEntity) => {
-        return character.homeworld.toLowerCase() === home.toLowerCase();
-      }
-    );
-
-    return { ...fetchData, results: filteredResults };
-  }
-
-  if (gender) {
-    const filteredResults = fetchData.results.filter(
-      (character: CharacterEntity) =>
-        character.gender.toLowerCase() === gender.toLowerCase()
-    );
-
-    return { ...fetchData, results: filteredResults };
-  }
 
   return fetchData;
 }

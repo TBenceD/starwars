@@ -5,6 +5,8 @@ type useIsScrollableProps = {
 };
 
 export function useIsScrollable(props: useIsScrollableProps): boolean {
+  const { dependencies } = props;
+
   const [isScrollable, setIsScrollable] = useState(false);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export function useIsScrollable(props: useIsScrollableProps): boolean {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [...props.dependencies]);
+  }, [...dependencies]);
 
   return isScrollable;
 }

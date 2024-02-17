@@ -16,7 +16,7 @@ export default function Filter(props: FilterProps) {
 
   return (
     <select
-      className="z-[2] max-h-20 overflow-auto w-full rounded-2xl p-2 pl-6 pr-4 before:transition-all focus:outline-none focus:ring-2 focus:ring-sky-400/10 bg-slate-800 text-slate-400"
+      className="z-[2] max-h-20 overflow-auto w-full rounded-2xl p-2 pl-2 pr-4 before:transition-all focus:outline-none focus:ring-2 focus:ring-sky-400/10 bg-slate-800 text-slate-400"
       name={name}
       id={id}
       onChange={(e) => onChange(e)}

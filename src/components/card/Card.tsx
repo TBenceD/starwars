@@ -12,7 +12,7 @@ export default function Card(props: CartProps) {
   return (
     <div
       onClick={() => onClick(character)}
-      className="h-64 hover:skew-y-2 cursor-pointer border p-4 border-neutral-950 shadow-lg shadow-sky-900 w-96 max-w-full rounded-lg"
+      className="h-64 hover:skew-y-2 cursor-pointer border p-4 border-neutral-950 shadow-md shadow-sky-900 w-96 max-w-full rounded-lg"
     >
       <div className="flex justify-center">
         <img

@@ -34,7 +34,7 @@ export default function CardListHeader(props: CardListHeaderProps) {
     new Map(names.map((name) => [name.value, name])).values()
   );
   return (
-    <div className="pt-8 w-full flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-7 md:gap-2">
+    <div className="pt-8 w-full flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-7 md:gap-4">
       <div className="md:col-span-3 md:col-start-2">
         <SearchBar
           id="search"
