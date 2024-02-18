@@ -35,12 +35,9 @@ export default function CardList(props: CardListProps) {
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.next === null && !loadedAllCharacters) {
         setLoadedAllCharacters(true);
+        return null;
       }
-      return gender || home
-        ? null
-        : lastPage.next !== null
-        ? allPages.length + 1
-        : null;
+      return gender || home ? null : allPages.length + 1;
     },
   });
 

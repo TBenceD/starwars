@@ -1,24 +1,19 @@
 type getAllFilmOfCharacterProps = {
-  filmUrls: string[];
+  filmUrls: string;
 };
 
 export default async function getAllFilmOfCharacter(
   props: getAllFilmOfCharacterProps
-): Promise<string[]> {
+): Promise<string> {
   const { filmUrls } = props;
 
-  let films = [];
   try {
-    const filmRequest = filmUrls.map(async (filmUrl) =>
-      fetch(`${filmUrl}`)
-        .then((res) => res.json())
-        .catch((err) => console.log(err))
-    );
-    films = await Promise.all(filmRequest);
+    const film = await fetch(`${filmUrls}`)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    return film.title;
   } catch (error) {
     console.error("Hiba a filmek betöltése közben:", error);
-    return [];
+    return "";
   }
-
-  return films[0].title;
 }

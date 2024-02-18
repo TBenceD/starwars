@@ -1,4 +1,4 @@
-import { CharacterEntity, CharacterPageEntity } from "@/entity";
+import { CharacterPageEntity } from "@/entity";
 import getAllFilmOfCharacter from "./getAllFilmOfCharacter";
 import getHomeOfCharacter from "./getCharacterHomeWorld";
 
@@ -8,6 +8,14 @@ type getAllCharactersProps = {
 };
 
 const url = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const existingFilms: [{ name: string; value: string }] = [
+  { name: "", value: "" },
+];
+
+const existingHomeWorld: [{ name: string; value: string }] = [
+  { name: "", value: "" },
+];
 
 export default async function getAllCharacter(
   props: getAllCharactersProps
@@ -25,27 +33,45 @@ export default async function getAllCharacter(
     .then((res) => res.json())
     .catch((err) => console.log(err));
 
-  const filteringResults = await Promise.all(
-    fetchData.results.map(async (character: CharacterEntity) => {
-      const films = await Promise.all(
-        character.films.map((filmUrl: string) =>
-          getAllFilmOfCharacter({ filmUrls: [filmUrl] })
-        )
-      );
+  const filteringResults = [];
 
-      const homeworld = await getHomeOfCharacter({
+  for (const character of fetchData.results) {
+    const characterFilms: string[] = [];
+
+    for (const film of character.films) {
+      const included = existingFilms.find(
+        (existingFilm) => existingFilm.name === film
+      );
+      if (included) {
+        characterFilms.push(included.value);
+      } else {
+        const value = await getAllFilmOfCharacter({ filmUrls: film });
+        characterFilms.push(value);
+        existingFilms.push({ name: film, value: value });
+      }
+    }
+
+    const includedHomeWorld = existingHomeWorld.find(
+      (existingHomeWorld) => existingHomeWorld.name === character.homeworld
+    );
+
+    let homeworld = "";
+    if (includedHomeWorld) {
+      homeworld = includedHomeWorld.value;
+    } else {
+      homeworld = await getHomeOfCharacter({
         home: character.homeworld,
       });
+      existingHomeWorld.push({ name: character.homeworld, value: homeworld });
+    }
 
-      homeWorldNames.push({ label: homeworld, value: homeworld });
-
-      return {
-        ...character,
-        films,
-        homeworld,
-      };
-    })
-  );
+    homeWorldNames.push({ label: homeworld, value: homeworld });
+    filteringResults.push({
+      ...character,
+      films: characterFilms,
+      homeworld,
+    });
+  }
 
   fetchData = { ...fetchData, results: filteringResults, homeWorldNames };
 
