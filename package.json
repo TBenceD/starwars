@@ -1,7 +1,12 @@
 {
   "name": "starwars",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "author": {
+    "name": "Tamás Bence Dávid",
+    "email": "tamasbence98@gmail.com",
+    "url": "https://www.linkedin.com/in/bence-d%C3%A1vid-tam%C3%A1s-1104081bb/"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

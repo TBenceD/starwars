@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Documentation 👩‍💻 👨‍💻
 
-## Getting Started
+# Next.js 14.1.0 + TypeScript
 
-First, run the development server:
+A dokumentum célja, hogy ismertesse a felvételihez szükséges Next.js projectet.
+Ez a project 2024. 02. 18-án került kész állapotba,
+szerkesztője: Tamás Bence Dávid <tamasbence98@gmail.com>.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Alábbiakban olvasható a projekt futtatásához szükséges információk listája.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A starwars nevezetű projekt a node 21.6.1-es verziójában íródott,
+ahogy az a ".nvmrc" file-ban is található, így célszerű ezt a verziót használni.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A jelenlegi legfrissebb Next.js verzióval (v14.1.0) készült.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+A dokumentum letöltése után (zip / fork) installáljuk a node dependenciákat,
 
-## Learn More
+## npm install - paranccsal
 
-To learn more about Next.js, take a look at the following resources:
+Miután sikeresen települtek a szükséges package-k, az
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+paranccsal indítható developer módban a projekt amit a http://localhost:3000/-as elérhetőségen lehet az indulást követően megtekinteni
 
-## Deploy on Vercel
+### Dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    .nvmrc -> node version
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Commands
+
+`npm install` Install node dependencies
+`npm run dev` Start project in development mode
