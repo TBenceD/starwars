@@ -1,14 +1,14 @@
 type getAllFilmOfCharacterProps = {
-  filmUrls: string;
+  filmUrl: string;
 };
 
 export default async function getAllFilmOfCharacter(
   props: getAllFilmOfCharacterProps
 ): Promise<string> {
-  const { filmUrls } = props;
+  const { filmUrl } = props;
 
   try {
-    const film = await fetch(`${filmUrls}`)
+    const film = await fetch(`${filmUrl}`)
       .then((res) => res.json())
       .catch((err) => console.log(err));
     return film.title;

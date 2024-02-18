@@ -45,7 +45,7 @@ export default async function getAllCharacter(
       if (included) {
         characterFilms.push(included.value);
       } else {
-        const value = await getAllFilmOfCharacter({ filmUrls: film });
+        const value = await getAllFilmOfCharacter({ filmUrl: film });
         characterFilms.push(value);
         existingFilms.push({ name: film, value: value });
       }
