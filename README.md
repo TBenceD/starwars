@@ -2,7 +2,7 @@
 
 # Next.js 14.1.0 + TypeScript
 
-A dokumentum célja, hogy ismertesse a felvételihez szükséges Next.js projectet.
+A dokumentum célja, hogy ismertesse a próbafeladat Next.js projectet.
 Ez a project 2024. 02. 18-án került kész állapotba,
 szerkesztője: Tamás Bence Dávid <tamasbence98@gmail.com>.
 
