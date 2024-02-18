@@ -20,12 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReactQueryClientProvider>
-          <>
-            <Header />
-            <div className="flex justify-center">
-              <div className="w-full overflow-auto max-w-6xl">{children}</div>
-            </div>
-          </>
+          <Header />
+          <div className="flex justify-center">
+            <div className="w-full overflow-auto max-w-6xl">{children}</div>
+          </div>
         </ReactQueryClientProvider>
       </body>
     </html>
